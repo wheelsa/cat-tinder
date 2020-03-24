@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_23_160952) do
+ActiveRecord::Schema.define(version: 2020_03_24_171539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cats", force: :cascade do |t|
+    t.string "name"
+    t.string "breed"
+    t.string "registry"
+    t.string "avatar"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -28,7 +37,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_160952) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.string "nickname" 
+    t.string "nickname"
     t.string "image"
     t.string "email"
     t.json "tokens"
@@ -39,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_160952) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.text "liked_cats"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
