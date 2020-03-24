@@ -1,64 +1,57 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 
-const AuthContext = React.createContext()
+const AuthContext = React.createContext();
+export const AuthConsumer = AuthContext.Consumer;
 
-export const AuthConsumer = AuthContext.Consumer
+export default class AuthProvider extends React.Component {
+  state = { user: null, };
 
-export default class AuthProvider extends React.Component{
-  state= {user: null}
-
-  //method to handle registration
   handleRegister = (user, history) => {
-    axios.post('/api/auth', user)
-    .then( res => {
-      console.log(res)
-      this.setState({ user: res.data.data});
-      history.push('/')
+    axios.post("/api/auth", user)
+      .then( res => {
+        this.setState({ user: res.data.data, });
+        history.push("/");
+      })
+    .catch( res => {
+      console.log(res);
     })
-    .catch( err => {
-      console.log(err)
-    })
-  };
+  }
   
-  //method to handle logging in
   handleLogin = (user, history) => {
-    axios.post('/api/auth/sign_in', user)
-    .then (res => {
-      this.setState({ user: res.data.data,});
-      history.push('/login');
-    })
-    .catch( err =>
-      console.log(err))
-  };
-
-  //method to handle logging out
+    axios.post("/api/auth/sign_in", user)
+      .then( res => {
+        this.setState({ user: res.data.data, });
+        history.push("/");
+      })
+      .catch( res => {
+        console.log(res);
+      })
+  }
+  
   handleLogout = (history) => {
-    axios.delete('/api/auth/sign_out')
-    .then(res =>{
-      this.setState({user: null})
-      history.push('/login')}
-    ).catch (err => {
-      console.log(err)
-    })
-  };
-
-
-  render(){
-    return(
+    axios.delete("/api/auth/sign_out")
+      .then( res => {
+        this.setState({ user: null, });
+        history.push('/login');
+      })
+      .catch( res => {
+        console.log(res);
+      })
+  }
+  
+  render() {
+    return (
       <AuthContext.Provider value={{
-        ...this.state, 
-        //...this.state === user = this.state.user in this case
+        ...this.state,
         authenticated: this.state.user !== null,
+        handleRegister: this.handleRegister,
         handleLogin: this.handleLogin,
         handleLogout: this.handleLogout,
-        handleRegister: this.handleRegister,
-        setUser: (user) => this.setState({user})
-        }}>
-
-        {this.props.children}
-
+        setUser: (user) => this.setState({ user, }),
+      }}>
+        { this.props.children }
       </AuthContext.Provider>
     )
   }
-}
+};

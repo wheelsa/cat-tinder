@@ -1,12 +1,12 @@
-import React from 'react'
-import { Header } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link, } from 'react-router-dom';
+import { Header, } from 'semantic-ui-react';
 
 const NoMatch = () => (
-  <Header as='h3'> 
-  Page Not Found
-    <span> <Link to='/'>Home</Link> </span>
+  <Header as="h3" textAlign="center">
+    Page not found return
+    <Link to="/"> Home</Link>
   </Header>
 )
 
-export default NoMatch
+export default NoMatch;
